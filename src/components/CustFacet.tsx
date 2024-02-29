@@ -29,19 +29,17 @@ const CustFacet = ({
     searchActions.executeVerticalQuery();
   };
   return facet && facet.options.length > 0 ? (
-    <div className="my-4 flex mx-auto justify-center bg-[#f9f7f6]">
+    <div className="my-4 hover:cursor-pointer flex mx-auto justify-center bg-[#f9f7f6]">
       {facet.options.map((o, i) => (
         <div
           key={`${fieldId}_${i}`}
           className={classNames(
             "mr-3 my-3 border border-toast-orange md:hover:bg-[#FFB563] w-40 py-4",
-            // styling to change the background color of the tile based on if it's selected or not
             {
               "bg-white": o.selected,
               "bg-[#f9f8f9]": !o.selected,
             }
           )}
-          // handleFacetClick will trigger on click to reverse the selected state of the facet option
           onClick={() => handleFacetClick(o.value, !o.selected)}
         >
           <div className="px-3 text-xs  text-center mx-auto flex flex-col items-center gap-4">

@@ -97,7 +97,12 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
       <div className="flex flex-col gap-4 w-1/3">
         {c_primaryCTA && (
           <a
-            href={c_primaryCTA.link || `#`}
+            href={
+              c_primaryCTA.link === "Get Directions"
+                ? getDirectionsUrl(address)
+                : c_primaryCTA.link || `#`
+            }
+            target="_blank"
             className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]"
           >
             {c_primaryCTA.label == "Get Directions" ? (
@@ -109,7 +114,7 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
           </a>
         )}
         {c_secondaryCTA && (
-          <div className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]">
+          <a href={c_secondaryCTA.link ? c_secondaryCTA.link:'#' } target="_blank" className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]">
             {["Visit my page", "Visit our site"].includes(
               c_secondaryCTA.label!
             ) ? (
