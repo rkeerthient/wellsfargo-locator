@@ -98,7 +98,7 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
         {c_primaryCTA && (
           <a
             href={
-              c_primaryCTA.link === "Get Directions"
+              c_primaryCTA.label === "Get Directions"
                 ? getDirectionsUrl(address)
                 : c_primaryCTA.link || `#`
             }
@@ -123,7 +123,7 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
               <FaArrowRight />
             )}{" "}
             <div>{c_secondaryCTA.label}</div>
-          </div>
+          </a>
         )}
       </div>
     </div>
