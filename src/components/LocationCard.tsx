@@ -5,6 +5,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { FaDirections } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import Ce_allEntities from "../types/all_entities";
+import { getIconSwitch } from "./MapPin";
 
 const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
   // const { hoveredLocationId, setHoveredLocationId, setClicked } =
@@ -44,29 +45,7 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
       //   hoveredLocationId === id ? "bg-gray-200" : ""
       // }`}
     >
-      <div>
-        {c_category === "ATM" ? (
-          <img
-            src="https://cdn-icons-png.freepik.com/512/2385/2385270.png"
-            alt=""
-            className="h-auto w-24"
-          />
-        ) : c_category === "Bank" ? (
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2830/2830155.png"
-            alt=""
-            className="h-auto w-24"
-          />
-        ) : "Financial Professional" && photoGallery ? (
-          <img src={photoGallery[0].image.url} alt="" className="h-auto w-24" />
-        ) : (
-          <img
-            src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png"
-            alt=""
-            className="h-auto w-24"
-          />
-        )}
-      </div>
+      <div>{getIconSwitch(c_category!, `h-auto w-24`)}</div>
       <div className="flex flex-col gap-2 justify-between text-[#787777]">
         <div className="font-bold text-[#141414]">{name}</div>
         <div className="flex items-center gap-2 text-sm">
@@ -114,7 +93,11 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
           </a>
         )}
         {c_secondaryCTA && (
-          <a href={c_secondaryCTA.link ? c_secondaryCTA.link:'#' } target="_blank" className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]">
+          <a
+            href={c_secondaryCTA.link ? c_secondaryCTA.link : "#"}
+            target="_blank"
+            className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]"
+          >
             {["Visit my page", "Visit our site"].includes(
               c_secondaryCTA.label!
             ) ? (

@@ -8,7 +8,7 @@ import Ce_allEntities, { Coordinate } from "../types/all_entities";
 import { GrAtm } from "react-icons/gr";
 import { FaHouseUser, FaUser } from "react-icons/fa6";
 import { LiaPiggyBankSolid } from "react-icons/lia";
-import { GiBank } from "react-icons/gi";
+import { PiUsersFourLight } from "react-icons/pi";
 const transformToMapboxCoord = (
   coordinate: Coordinate
 ): LngLatLike | undefined => {
@@ -109,7 +109,7 @@ export const getIconSwitch = (name: string, classes: string) => {
     case "Investment Service":
       return <LiaPiggyBankSolid className={classes} />;
     case "Financial Consultants":
-      return <GiBank className={classes} />;
+      return <PiUsersFourLight className={classes} />;
     default:
       return <FaUser className={classes} />;
   }
