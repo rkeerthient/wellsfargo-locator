@@ -7,23 +7,23 @@ const LocationsContext = React.createContext<any>({});
 export const LocationsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>) => {
-  const [selectedLocation, setSelectedLocation] = useState<any>();
-  const [hoveredLocation, setHoveredLocation] = useState<any>();
+  const [selectedLocationId, setSelectedLocationId] = useState<any>();
+  const [hoveredLocationId, setHoveredLocationId] = useState<any>();
 
   return (
     <LocationsContext.Provider
       value={React.useMemo(
         () => ({
-          selectedLocation,
-          setSelectedLocation,
-          hoveredLocation,
-          setHoveredLocation,
+          selectedLocationId,
+          setSelectedLocationId,
+          hoveredLocationId,
+          setHoveredLocationId,
         }),
         [
-          selectedLocation,
-          setSelectedLocation,
-          hoveredLocation,
-          setHoveredLocation,
+          selectedLocationId,
+          setSelectedLocationId,
+          hoveredLocationId,
+          setHoveredLocationId,
         ]
       )}
     >

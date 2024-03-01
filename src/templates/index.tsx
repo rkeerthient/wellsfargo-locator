@@ -11,6 +11,7 @@ import {
 import Locator from "../components/Locator";
 import PageLayout from "../components/page-layout";
 import "../index.css";
+import { LocationsProvider } from "../common/LocationsContext";
 
 export const config: TemplateConfig = {
   name: "search",
@@ -41,13 +42,13 @@ export const getHeadConfig: GetHeadConfig<
 
 const Search: Template<TemplateRenderProps> = ({ document }) => {
   return (
-    <>
+    <LocationsProvider>
       <PageLayout>
         <div className="centered-container">
           <Locator verticalKey={"all_entities"}></Locator>
         </div>
       </PageLayout>
-    </>
+    </LocationsProvider>
   );
 };
 

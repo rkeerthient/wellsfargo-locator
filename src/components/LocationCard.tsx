@@ -6,10 +6,15 @@ import { FaDirections } from "react-icons/fa";
 import { TbWorldWww } from "react-icons/tb";
 import Ce_allEntities from "../types/all_entities";
 import { getIconSwitch } from "./MapPin";
+import { useLocationsContext } from "../common/LocationsContext";
 
 const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
-  // const { hoveredLocationId, setHoveredLocationId, setClicked } =
-  //   useMapContext();
+  const {
+    hoveredLocationId,
+    setHoveredLocationId,
+    selectedLocationId,
+    setSelectedLocationId,
+  } = useLocationsContext();
 
   const { name } = result;
   const {
@@ -21,7 +26,6 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
     c_primaryCTA,
     c_secondaryCTA,
   } = result.rawData;
-  console.log(JSON.stringify(result.rawData));
 
   const getDirectionsUrl = (addr?: any) => {
     const region = addr.region ? ` ${addr.region}` : ``;
@@ -31,21 +35,25 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
     return url;
   };
 
+  const handleClick = () => {
+    setHoveredLocationId(id);
+    setSelectedLocationId(id);
+  };
+
   return (
     <div
       className="border rounded-sm bg-[#f9f7f6] py-4 pl-4 flex gap-2 hover:border-[#d61f2b] items-center justify-between"
-      // onMouseEnter={() => {
-      //   setHoveredLocationId(id);
-      // }}
-      // onMouseLeave={() => {
-      //   setHoveredLocationId("");
-      // }}
-      // onClick={() => setClicked(id)}
-      // className={`flex justify-between border-y p-4 hover:cursor-pointer  ${
-      //   hoveredLocationId === id ? "bg-gray-200" : ""
-      // }`}
+      onClick={handleClick}
     >
-      <div>{getIconSwitch(c_category!, `h-auto w-24`)}</div>
+      <div>
+        {c_category === "Financial Professional" &&
+        photoGallery &&
+        photoGallery[0] ? (
+          <img src={photoGallery[0].image.url} alt="" className="h-auto w-24" />
+        ) : (
+          getIconSwitch(c_category!, `h-auto w-24`)
+        )}
+      </div>
       <div className="flex flex-col gap-2 justify-between text-[#787777]">
         <div className="font-bold text-[#141414]">{name}</div>
         <div className="flex items-center gap-2 text-sm">

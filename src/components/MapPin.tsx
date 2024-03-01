@@ -9,6 +9,7 @@ import { GrAtm } from "react-icons/gr";
 import { FaHouseUser, FaUser } from "react-icons/fa6";
 import { LiaPiggyBankSolid } from "react-icons/lia";
 import { PiUsersFourLight } from "react-icons/pi";
+import { useLocationsContext } from "../common/LocationsContext";
 const transformToMapboxCoord = (
   coordinate: Coordinate
 ): LngLatLike | undefined => {
@@ -23,7 +24,7 @@ const getLocationHTML = (location: any) => {
   const address = location.address;
   const html = (
     <div>
-      <p className="font-bold">{location.neighborhood || "unknown location"}</p>
+      <p className="font-bold">{location.name || "unknown location"}</p>
       <p>{location.address.line1}</p>
       <p>{`${address.city}, ${address.region}, ${address.postalCode}`}</p>
     </div>
@@ -34,19 +35,15 @@ const getLocationHTML = (location: any) => {
 export interface MapPinProps {
   mapbox: Map;
   result: Result<Ce_allEntities>;
-  hoveredLocationId: string;
-  setHoveredLocationId: (value: string) => void;
-  clicked: string;
-  setClicked: (value: string) => void;
 }
 
-const MapPin: React.FC<MapPinProps> = ({
-  mapbox,
-  result,
-  hoveredLocationId,
-  setHoveredLocationId,
-  clicked,
-}: MapPinProps) => {
+const MapPin: React.FC<MapPinProps> = ({ mapbox, result }: MapPinProps) => {
+  const { hoveredLocationId, setHoveredLocationId } = useLocationsContext();
+
+  useEffect(() => {
+    hoveredLocationId && console.log(hoveredLocationId);
+  }, [hoveredLocationId]);
+
   const location = result.rawData;
   const [active, setActive] = useState(false);
   const popupRef = useRef(
@@ -77,13 +74,6 @@ const MapPin: React.FC<MapPinProps> = ({
   const removeHoveredLocation = () => {
     setHoveredLocationId("");
   };
-
-  //Bank
-  //ATM
-  //User
-  //Mortgage FaHouseUser
-  // Investment - LiaPiggyBankSolid
-  //Financial Consutants - GiBank
 
   return (
     <button

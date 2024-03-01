@@ -25,9 +25,11 @@ const CustFacet = ({
     selected: boolean,
     matcher = Matcher.Equals
   ) => {
+    searchActions.resetFacets();
     searchActions.setFacetOption(fieldId, { matcher, value }, selected);
     searchActions.executeVerticalQuery();
   };
+
   return facet && facet.options.length > 0 ? (
     <div className="my-4 hover:cursor-pointer flex mx-auto justify-center bg-[#f9f7f6]">
       {facet.options.map((o, i) => (

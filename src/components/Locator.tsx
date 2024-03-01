@@ -21,32 +21,18 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
-import { LocationsProvider } from "../common/LocationsContext";
-import { createCtx } from "../common/createContext";
-import Loader from "./Loader";
-import MapPin from "./MapPin";
-import LocationCard from "./LocationCard";
 import CustFacet from "./CustFacet";
+import Loader from "./Loader";
+import LocationCard from "./LocationCard";
+import MapPin from "./MapPin";
 export interface Location {
   yextDisplayCoordinate?: Coordinate;
 }
 
-type MapContextType = {
-  hoveredLocationId: string;
-  setHoveredLocationId: (value: string) => void;
-  clicked: string;
-  setClicked: (value: string) => void;
-};
-
-export const [useMapContext, MapContextProvider] = createCtx<MapContextType>(
-  "Attempted to call useMapContext outside of MapContextProvider"
-);
 type verticalKey = {
   verticalKey: string;
 };
 const Locator = ({ verticalKey }: verticalKey) => {
-  const [hoveredLocationId, setHoveredLocationId] = useState("");
-  const [clicked, setClicked] = useState("");
   const searchActions = useSearchActions();
   const filters = useSearchState((state) => state.filters.static);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,14 +70,13 @@ const Locator = ({ verticalKey }: verticalKey) => {
 
   return (
     <>
-      <SearchBar placeholder="Search our Events" />
+      <SearchBar placeholder="Search here" />
 
       {isLoading ? (
         <Loader />
       ) : (
-        <LocationsProvider>
+        <>
           <CustFacet fieldId="c_category" displayName="Category" />
-
           <div className="flex flex-row">
             <div
               className="flex flex-col w-2/5 p-4 overflow-scroll relative"
@@ -163,19 +148,11 @@ const Locator = ({ verticalKey }: verticalKey) => {
                 mapboxAccessToken={
                   import.meta.env.YEXT_PUBLIC_MAP_API_KEY || ""
                 }
-                PinComponent={(props) => (
-                  <MapPin
-                    {...props}
-                    hoveredLocationId={hoveredLocationId}
-                    setHoveredLocationId={setHoveredLocationId}
-                    clicked={clicked}
-                    setClicked={setClicked}
-                  />
-                )}
+                PinComponent={(props) => <MapPin {...props} />}
               />
             </div>
           </div>
-        </LocationsProvider>
+        </>
       )}
     </>
   );
