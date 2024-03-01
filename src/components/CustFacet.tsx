@@ -28,6 +28,14 @@ const CustFacet = ({
     searchActions.resetFacets();
     searchActions.setFacetOption(fieldId, { matcher, value }, selected);
     searchActions.executeVerticalQuery();
+    const queryParams = new URLSearchParams(window.location.search);
+
+    if (value) {
+      queryParams.set("type", value);
+    } else {
+      queryParams.delete("type");
+    }
+    history.pushState(null, "", "?" + queryParams.toString());
   };
 
   return facet && facet.options.length > 0 ? (

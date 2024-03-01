@@ -15,6 +15,7 @@ import {
   ResultsCount,
   SearchBar,
   VerticalResults,
+  onSearchFunc,
 } from "@yext/search-ui-react";
 import { LngLat, LngLatBounds } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -42,7 +43,19 @@ const Locator = ({ verticalKey }: verticalKey) => {
     searchActions.setVertical(verticalKey);
     searchActions.executeVerticalQuery().then(() => setIsLoading(false));
   }, [searchActions]);
+  const handleSearch: onSearchFunc = (searchEventData) => {
+    const { query } = searchEventData;
+    searchActions.executeVerticalQuery();
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.delete("type");
 
+    if (query) {
+      queryParams.set("query", query);
+    } else {
+      queryParams.delete("query");
+    }
+    history.pushState(null, "", "?" + queryParams.toString());
+  };
   const onDrag: OnDragHandler = React.useCallback(
     (center: LngLat, bounds: LngLatBounds) => {
       const radius = center.distanceTo(bounds.getNorthEast());
@@ -70,7 +83,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
 
   return (
     <>
-      <SearchBar placeholder="Search here" />
+      <SearchBar placeholder="Search here" onSearch={handleSearch} />
 
       {isLoading ? (
         <Loader />
