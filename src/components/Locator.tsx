@@ -38,6 +38,13 @@ const Locator = ({ verticalKey }: verticalKey) => {
   const filters = useSearchState((state) => state.filters.static);
   const [isLoading, setIsLoading] = useState(true);
   const [showFacets, setShowFacets] = useState(false);
+  const facets = useSearchState((state) => state.filters.facets);
+
+  const nr =
+    facets &&
+    facets
+      .filter((item) => item.fieldId !== "c_category")
+      .map((item) => item.options.length >= 1);
 
   useEffect(() => {
     searchActions.setVertical(verticalKey);
@@ -48,7 +55,6 @@ const Locator = ({ verticalKey }: verticalKey) => {
     searchActions.executeVerticalQuery();
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.delete("type");
-
     if (query) {
       queryParams.set("query", query);
     } else {
@@ -96,7 +102,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
               style={{ height: "95vh" }}
             >
               <div
-                className="hover:cursor-pointer px-4 py-2 font-bold text-sm bg-[#d61f28] text-white w-fit"
+                className={`hover:cursor-pointer px-4 py-2 font-bold text-sm bg-[#d61f28] text-white w-fit ${nr && nr.every((v) => v === true) ? `block` : `hidden`}`}
                 onClick={(e) => setShowFacets(!showFacets)}
               >
                 Facets & Filters
