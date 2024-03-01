@@ -119,7 +119,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
                 <>
                   <div>
                     <ResultsCount />
-                    <AppliedFilters />
+                    <AppliedFilters hiddenFields={["c_category"]} />
                     <VerticalResults
                       CardComponent={LocationCard}
                       customCssClasses={{
