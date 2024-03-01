@@ -29,7 +29,6 @@ const CustFacet = ({
     searchActions.setFacetOption(fieldId, { matcher, value }, selected);
     searchActions.executeVerticalQuery();
     const queryParams = new URLSearchParams(window.location.search);
-
     if (value) {
       queryParams.set("type", value);
     } else {

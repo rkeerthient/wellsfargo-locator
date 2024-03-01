@@ -1,5 +1,6 @@
 import {
   Matcher,
+  NumberRangeValue,
   SelectableStaticFilter,
   useSearchActions,
   useSearchState,
@@ -39,7 +40,9 @@ const Locator = ({ verticalKey }: verticalKey) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showFacets, setShowFacets] = useState(false);
   const facets = useSearchState((state) => state.filters.facets);
-
+  const facet = useSearchState((state) =>
+    state.filters.facets?.find((f) => f.fieldId === "c_category")
+  );
   const nr =
     facets &&
     facets
@@ -48,8 +51,30 @@ const Locator = ({ verticalKey }: verticalKey) => {
 
   useEffect(() => {
     searchActions.setVertical(verticalKey);
-    searchActions.executeVerticalQuery().then(() => setIsLoading(false));
+    let matcher = Matcher.Equals;
+    const queryParams = new URLSearchParams(window.location.search);
+
+    let q = queryParams.get("query");
+    let value = queryParams.get("type");
+    q && searchActions.setQuery(q);
+    let fieldId = "c_category";
+    let selected = true;
+    searchActions
+      .executeVerticalQuery()
+      .then(() =>
+        value
+          ? (searchActions.setFacetOption(
+              fieldId,
+              { matcher, value },
+              selected
+            ),
+            searchActions
+              .executeVerticalQuery()
+              .then(() => setIsLoading(false)))
+          : setIsLoading(false)
+      );
   }, [searchActions]);
+
   const handleSearch: onSearchFunc = (searchEventData) => {
     const { query } = searchEventData;
     searchActions.executeVerticalQuery();
@@ -138,7 +163,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
                 <>
                   <div>
                     <ResultsCount />
-                    <AppliedFilters hiddenFields={["c_category"]} />
+                    <AppliedFilters />
                     <VerticalResults
                       CardComponent={LocationCard}
                       customCssClasses={{
