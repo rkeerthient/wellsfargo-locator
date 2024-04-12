@@ -114,19 +114,20 @@ const Locator = ({ verticalKey }: verticalKey) => {
 
   return (
     <>
-      <SearchBar placeholder="Search here" onSearch={handleSearch} />
-
+      <div className="centered-container">
+        <SearchBar placeholder="Search here" onSearch={handleSearch} />
+      </div>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <CustFacet fieldId="c_category" displayName="Category" />
+          {/* <CustFacet fieldId="c_category" displayName="Category" /> */}
           <div className="flex flex-row">
             <div
-              className="flex flex-col w-2/5 p-4 overflow-scroll relative"
+              className="flex flex-col w-[40%] p-4 overflow-scroll relative"
               style={{ height: "95vh" }}
             >
-              <div
+              {/* <div
                 className={`hover:cursor-pointer px-4 py-2 font-bold text-sm bg-[#d61f28] text-white w-fit ${nr && nr.every((v) => v === true) ? `block` : `hidden`}`}
                 onClick={(e) => setShowFacets(!showFacets)}
               >
@@ -159,32 +160,31 @@ const Locator = ({ verticalKey }: verticalKey) => {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <>
-                  <div>
-                    <ResultsCount />
-                    <AppliedFilters />
-                    <VerticalResults
-                      CardComponent={LocationCard}
+              ) : ( */}
+              <>
+                <div>
+                  <ResultsCount />
+                  <AppliedFilters />
+                  <VerticalResults
+                    CardComponent={LocationCard}
+                    customCssClasses={{
+                      verticalResultsContainer: "flex flex-col gap-4 bg-white",
+                    }}
+                  />
+                  <div className="mt-4">
+                    <Pagination />
+                    <Geolocation
                       customCssClasses={{
-                        verticalResultsContainer:
-                          "flex flex-col gap-4 bg-white",
+                        iconContainer: "none",
+                        geolocationContainer: "flex flex-col lg:flex-col",
                       }}
                     />
-                    <div className="mt-4">
-                      <Pagination />
-                      <Geolocation
-                        customCssClasses={{
-                          iconContainer: "none",
-                          geolocationContainer: "flex flex-col lg:flex-col",
-                        }}
-                      />
-                    </div>
                   </div>
-                </>
-              )}
+                </div>
+              </>
+              {/* )} */}
             </div>
-            <div className=" w-3/5 h-screen">
+            <div className=" w-[55%] h-screen">
               <MapboxMap
                 mapboxOptions={{
                   zoom: 20,

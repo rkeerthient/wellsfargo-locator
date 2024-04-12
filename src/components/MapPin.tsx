@@ -6,7 +6,7 @@ import * as ReactDOM from "react-dom/server";
 import { CiBank } from "react-icons/ci";
 import Ce_allEntities, { Coordinate } from "../types/all_entities";
 import { GrAtm } from "react-icons/gr";
-import { FaHouseUser, FaUser } from "react-icons/fa6";
+import { FaCircle, FaHouseUser, FaUser } from "react-icons/fa6";
 import { LiaPiggyBankSolid } from "react-icons/lia";
 import { PiUsersFourLight } from "react-icons/pi";
 import { useLocationsContext } from "../common/LocationsContext";
@@ -81,26 +81,9 @@ const MapPin: React.FC<MapPinProps> = ({ mapbox, result }: MapPinProps) => {
       onMouseEnter={updateHoveredLocation}
       onMouseLeave={removeHoveredLocation}
     >
-      {getIconSwitch(location.c_category!, `h-8 w-8`)}
+      <FaCircle className="text-[#d71e2b] h-4 w-4" />
     </button>
   );
 };
 
 export default MapPin;
-
-export const getIconSwitch = (name: string, classes: string) => {
-  switch (name) {
-    case "Bank":
-      return <CiBank className={classes} />;
-    case "ATM":
-      return <GrAtm className={classes} />;
-    case "Mortgage Consultants":
-      return <FaHouseUser className={classes} />;
-    case "Investment Service":
-      return <LiaPiggyBankSolid className={classes} />;
-    case "Financial Consultants":
-      return <PiUsersFourLight className={classes} />;
-    default:
-      return <FaUser className={classes} />;
-  }
-};

@@ -1,14 +1,11 @@
 import { CardProps } from "@yext/search-ui-react";
 import { BsPin } from "react-icons/bs";
-import { CiCalendar, CiPhone } from "react-icons/ci";
-import { FaArrowRight } from "react-icons/fa6";
-import { FaDirections } from "react-icons/fa";
-import { TbWorldWww } from "react-icons/tb";
-import Ce_allEntities from "../types/all_entities";
-import { getIconSwitch } from "./MapPin";
+import { CiPhone } from "react-icons/ci";
 import { useLocationsContext } from "../common/LocationsContext";
-
-const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
+import Location from "../types/locations";
+import { LuMapPin } from "react-icons/lu";
+import Professional from "./Professional";
+const LocationCard = ({ result }: CardProps<Location>) => {
   const {
     hoveredLocationId,
     setHoveredLocationId,
@@ -16,16 +13,8 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
     setSelectedLocationId,
   } = useLocationsContext();
 
-  const { name } = result;
-  const {
-    id,
-    address,
-    mainPhone,
-    c_category,
-    photoGallery,
-    c_primaryCTA,
-    c_secondaryCTA,
-  } = result.rawData;
+  const { name, id } = result;
+  const { address, mainPhone, c_locationProfessional } = result.rawData;
 
   const getDirectionsUrl = (addr?: any) => {
     const region = addr.region ? ` ${addr.region}` : ``;
@@ -41,47 +30,46 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
   };
 
   return (
-    <div
-      className="border rounded-sm bg-[#f9f7f6] py-4 pl-4 flex gap-2 hover:border-[#d61f2b] items-center justify-between"
-      onClick={handleClick}
-    >
-      <div>
-        {c_category === "Financial Professional" &&
-        photoGallery &&
-        photoGallery[0] ? (
-          <img src={photoGallery[0].image.url} alt="" className="h-auto w-24" />
-        ) : (
-          getIconSwitch(c_category!, `h-auto w-24`)
-        )}
-      </div>
-      <div className="flex flex-col gap-2 justify-between text-[#787777]">
-        <div className="font-bold text-[#141414]">{name}</div>
-        <div className="flex items-center gap-2 text-sm">
-          <div>
-            <CiPhone />
+    <div className="w-full border  rounded-sm bg-[#f9f7f6]  flex flex-col ">
+      <div
+        className="  px-4 py-4 flex gap-2 items-center justify-between"
+        onClick={handleClick}
+      >
+        <div className="flex flex-col text-sm w-full gap-2 justify-between text-black">
+          <div className="flex w-full justify-between">
+            <div className="font-bold text-base text-[#141414]">{name}</div>
+            <div className="">12mi</div>
           </div>
-          <div>
-            {mainPhone
-              ? mainPhone
-                  .replace("+1", "")
-                  .replace(/\D+/g, "")
-                  .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
-              : `(610) 363-8020`}
-          </div>
-        </div>
-        <div className="flex gap-2 items-center text-sm">
-          <div>
-            <BsPin />
-          </div>
-          <div className="flex flex-col  ">
+          <div className="flex gap-2 items-center text-sm">
             <div>
-              {address?.line1}, {address?.city}, {address?.region},{" "}
-              {address?.postalCode}
+              <LuMapPin />
+            </div>
+            <div className="flex flex-col  ">
+              <div>
+                {address?.line1}, {address?.city}, {address?.region},{" "}
+                {address?.postalCode}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-sm">
+            <div>
+              <CiPhone />
+            </div>
+            <div>
+              {mainPhone
+                ? mainPhone
+                    .replace("+1", "")
+                    .replace(/\D+/g, "")
+                    .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
+                : `(610) 363-8020`}
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 w-1/3">
+      {c_locationProfessional && (
+        <Professional result={c_locationProfessional} />
+      )}
+      {/* <div className="flex flex-col gap-4 w-1/3">
         {c_primaryCTA && (
           <a
             href={
@@ -116,7 +104,7 @@ const LocationCard = ({ result }: CardProps<Ce_allEntities>) => {
             <div>{c_secondaryCTA.label}</div>
           </a>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

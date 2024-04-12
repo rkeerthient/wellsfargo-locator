@@ -44,8 +44,8 @@ const Search: Template<TemplateRenderProps> = ({ document }) => {
   return (
     <LocationsProvider>
       <PageLayout>
-        <div className="centered-container">
-          <Locator verticalKey={"all_entities"}></Locator>
+        <div>
+          <Locator verticalKey={"locations"}></Locator>
         </div>
       </PageLayout>
     </LocationsProvider>
