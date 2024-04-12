@@ -141,17 +141,14 @@ const Locator = ({ verticalKey }: verticalKey) => {
               </>
             </div>
             <div className=" w-[60%] h-screen">
-              <MapboxMap<Location>
-                getCoordinate={(location) =>
-                  location.rawData.yextDisplayCoordinate
-                }
+              <MapboxMap
                 mapboxOptions={{
                   zoom: 20,
                 }}
                 mapboxAccessToken={
                   import.meta.env.YEXT_PUBLIC_MAP_API_KEY || ""
                 }
-                PinComponent={MapPin}
+                PinComponent={(props) => <MapPin {...props} />}
               />
             </div>
           </div>
