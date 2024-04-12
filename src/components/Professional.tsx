@@ -1,7 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import { FaArrowRight, FaRegUser } from "react-icons/fa6";
 import { Image } from "@yext/pages-components";
+import { FaRegUser } from "react-icons/fa6";
 import { HiArrowSmallRight } from "react-icons/hi2";
 const Professional = ({ result }: any) => {
   return (

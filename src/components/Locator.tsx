@@ -1,14 +1,11 @@
 import {
   Matcher,
-  NumberRangeValue,
   SelectableStaticFilter,
   useSearchActions,
   useSearchState,
 } from "@yext/search-headless-react";
 import {
   AppliedFilters,
-  Coordinate,
-  Facets,
   Geolocation,
   MapboxMap,
   OnDragHandler,
@@ -22,14 +19,9 @@ import { LngLat, LngLatBounds } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { IoIosClose } from "react-icons/io";
-import CustFacet from "./CustFacet";
 import Loader from "./Loader";
 import LocationCard from "./LocationCard";
 import MapPin from "./MapPin";
-export interface Location {
-  yextDisplayCoordinate?: Coordinate;
-}
 
 type verticalKey = {
   verticalKey: string;
@@ -121,46 +113,11 @@ const Locator = ({ verticalKey }: verticalKey) => {
         <Loader />
       ) : (
         <>
-          {/* <CustFacet fieldId="c_category" displayName="Category" /> */}
           <div className="flex flex-row">
             <div
               className="flex flex-col w-[40%] p-4 overflow-scroll relative"
               style={{ height: "95vh" }}
             >
-              {/* <div
-                className={`hover:cursor-pointer px-4 py-2 font-bold text-sm bg-[#d61f28] text-white w-fit ${nr && nr.every((v) => v === true) ? `block` : `hidden`}`}
-                onClick={(e) => setShowFacets(!showFacets)}
-              >
-                Facets & Filters
-              </div>
-
-              {showFacets ? (
-                <div className="absolute inset-0 bg-white h-[95vh]">
-                  <IoIosClose
-                    onClick={(e) => setShowFacets(false)}
-                    className="ml-auto h-8 w-8 mr-4 hover:cursor-pointer hover:border"
-                  />
-                  <Facets
-                    customCssClasses={{ facetsContainer: "mr-10" }}
-                    searchOnChange={true}
-                    excludedFieldIds={["c_category"]}
-                  />
-                  <div className="flex flex-row gap-4 mb-8">
-                    <div
-                      className="hover:cursor-pointer px-4 py-1 mt-4 bg-[#d61f28] font-bold text-white w-fit"
-                      onClick={(e) => setShowFacets(!showFacets)}
-                    >
-                      Apply
-                    </div>
-                    <div
-                      className="hover:cursor-pointer px-4 py-1 mt-4 text-[#027da5] w-fit hover:underline"
-                      onClick={(e) => setShowFacets(false)}
-                    >
-                      Cancel
-                    </div>
-                  </div>
-                </div>
-              ) : ( */}
               <>
                 <div>
                   <ResultsCount />
@@ -182,17 +139,19 @@ const Locator = ({ verticalKey }: verticalKey) => {
                   </div>
                 </div>
               </>
-              {/* )} */}
             </div>
-            <div className=" w-[55%] h-screen">
-              <MapboxMap
+            <div className=" w-[60%] h-screen">
+              <MapboxMap<Location>
+                getCoordinate={(location) =>
+                  location.rawData.yextDisplayCoordinate
+                }
                 mapboxOptions={{
                   zoom: 20,
                 }}
                 mapboxAccessToken={
                   import.meta.env.YEXT_PUBLIC_MAP_API_KEY || ""
                 }
-                PinComponent={(props) => <MapPin {...props} />}
+                PinComponent={MapPin}
               />
             </div>
           </div>
