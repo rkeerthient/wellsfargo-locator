@@ -5,17 +5,11 @@ import { useLocationsContext } from "../common/LocationsContext";
 import Location from "../types/locations";
 import { LuMapPin } from "react-icons/lu";
 import Professional from "./Professional";
+import { useEffect } from "react";
 const LocationCard = ({ result }: CardProps<Location>) => {
-  const {
-    hoveredLocationId,
-    setHoveredLocationId,
-    selectedLocationId,
-    setSelectedLocationId,
-  } = useLocationsContext();
-
   const { name, id } = result;
   const { address, mainPhone, c_locationProfessional } = result.rawData;
-
+  const { selectedLocationId } = useLocationsContext();
   const getDirectionsUrl = (addr?: any) => {
     const region = addr.region ? ` ${addr.region}` : ``;
     const rawQuery = `${addr.line1},${addr.city},${region} ${addr.postalCode} ${addr.countryCode}`;
@@ -24,17 +18,24 @@ const LocationCard = ({ result }: CardProps<Location>) => {
     return url;
   };
 
-  const handleClick = () => {
-    setHoveredLocationId(id);
-    setSelectedLocationId(id);
-  };
+  useEffect(() => {
+    const element = document.getElementById(selectedLocationId);
+    if (element) {
+      // 👇 Will scroll smoothly to the top of the next section
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start",
+      });
+    }
+  }, [selectedLocationId]);
 
   return (
-    <div className="w-full border  rounded-sm bg-[#f9f7f6]  flex flex-col ">
-      <div
-        className="  px-4 py-4 flex gap-2 items-center justify-between"
-        onClick={handleClick}
-      >
+    <div
+      id={id}
+      className="w-full border  rounded-sm bg-[#f9f7f6]  flex flex-col "
+    >
+      <div className="  px-4 py-4 flex gap-2 items-center justify-between">
         <div className="flex flex-col text-sm w-full gap-2 justify-between text-black">
           <div className="flex w-full justify-between">
             <div className="font-bold text-base text-[#141414]">{name}</div>
@@ -69,42 +70,6 @@ const LocationCard = ({ result }: CardProps<Location>) => {
       {c_locationProfessional && (
         <Professional result={c_locationProfessional} />
       )}
-      {/* <div className="flex flex-col gap-4 w-1/3">
-        {c_primaryCTA && (
-          <a
-            href={
-              c_primaryCTA.label === "Get Directions"
-                ? getDirectionsUrl(address)
-                : c_primaryCTA.link || `#`
-            }
-            target="_blank"
-            className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]"
-          >
-            {c_primaryCTA.label == "Get Directions" ? (
-              <FaDirections />
-            ) : (
-              <CiCalendar />
-            )}
-            <div>{c_primaryCTA.label}</div>
-          </a>
-        )}
-        {c_secondaryCTA && (
-          <a
-            href={c_secondaryCTA.link ? c_secondaryCTA.link : "#"}
-            target="_blank"
-            className="flex gap-2 hover:underline hover:cursor-pointer items-center text-sm text-[#8982a7]"
-          >
-            {["Visit my page", "Visit our site"].includes(
-              c_secondaryCTA.label!
-            ) ? (
-              <TbWorldWww />
-            ) : (
-              <FaArrowRight />
-            )}{" "}
-            <div>{c_secondaryCTA.label}</div>
-          </a>
-        )}
-      </div> */}
     </div>
   );
 };

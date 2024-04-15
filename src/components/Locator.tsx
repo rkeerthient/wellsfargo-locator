@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import LocationCard from "./LocationCard";
 import MapPin from "./MapPin";
+import { useLocationsContext } from "../common/LocationsContext";
 
 type verticalKey = {
   verticalKey: string;
@@ -30,16 +31,12 @@ const Locator = ({ verticalKey }: verticalKey) => {
   const searchActions = useSearchActions();
   const filters = useSearchState((state) => state.filters.static);
   const [isLoading, setIsLoading] = useState(true);
-  const [showFacets, setShowFacets] = useState(false);
-  const facets = useSearchState((state) => state.filters.facets);
-  const facet = useSearchState((state) =>
-    state.filters.facets?.find((f) => f.fieldId === "c_category")
-  );
-  const nr =
-    facets &&
-    facets
-      .filter((item) => item.fieldId !== "c_category")
-      .map((item) => item.options.length >= 1);
+  const [selectedLocationId, setSelectedLocationId] = useState("");
+  const { setSelectedLocationId: _setSelectedLocationId } =
+    useLocationsContext();
+  useEffect(() => {
+    selectedLocationId && _setSelectedLocationId(selectedLocationId);
+  }, [selectedLocationId]);
 
   useEffect(() => {
     searchActions.setVertical(verticalKey);
@@ -148,7 +145,13 @@ const Locator = ({ verticalKey }: verticalKey) => {
                 mapboxAccessToken={
                   import.meta.env.YEXT_PUBLIC_MAP_API_KEY || ""
                 }
-                PinComponent={(props) => <MapPin {...props} />}
+                PinComponent={(props) => (
+                  <MapPin
+                    {...props}
+                    selectedLocationId={selectedLocationId}
+                    setSelectedLocationId={setSelectedLocationId}
+                  />
+                )}
               />
             </div>
           </div>

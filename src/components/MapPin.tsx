@@ -32,26 +32,22 @@ const getLocationHTML = (location: Location) => {
 export interface MapPinProps {
   mapbox: Map;
   result: Result<Location>;
+  selectedLocationId: string;
+  setSelectedLocationId: (value: string) => void;
 }
 
-const MapPin: React.FC<MapPinProps> = ({ mapbox, result }: MapPinProps) => {
-  const { hoveredLocationId, setHoveredLocationId } = useLocationsContext();
+const MapPin: React.FC<MapPinProps> = ({
+  mapbox,
+  result,
+  setSelectedLocationId,
+  selectedLocationId,
+}: MapPinProps) => {
   const divRef = useRef();
   const location = result.rawData;
   const [active, setActive] = useState(false);
   const popupRef = useRef(
     new Popup({ offset: 15 }).on("close", () => setActive(false))
   );
-  useEffect(() => {
-    hoveredLocationId && console.log(hoveredLocationId);
-  }, [hoveredLocationId]);
-
-  const scrollToElement = () => {
-    const { current } = divRef;
-    if (current !== null) {
-      current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   useEffect(() => {
     if (active && location.yextDisplayCoordinate) {
@@ -68,23 +64,12 @@ const MapPin: React.FC<MapPinProps> = ({ mapbox, result }: MapPinProps) => {
   }, [active, mapbox, location]);
 
   const handleClick = useCallback(() => {
+    setSelectedLocationId(location.id);
     setActive(true);
   }, []);
 
-  const updateHoveredLocation = () => {
-    setHoveredLocationId(location.id);
-  };
-
-  const removeHoveredLocation = () => {
-    setHoveredLocationId("");
-  };
-
   return (
-    <button
-      onClick={handleClick}
-      onMouseEnter={updateHoveredLocation}
-      onMouseLeave={removeHoveredLocation}
-    >
+    <button onClick={handleClick}>
       <FaCircle className="text-[#d71e2b] h-4 w-4" />
     </button>
   );
