@@ -94,3 +94,7 @@
 .slick-slider .slick-slide {
   padding: 0 15px;
 }
+
+.custSearch > div {
+  @apply border-0 border-b w-1/4 rounded-none;
+}

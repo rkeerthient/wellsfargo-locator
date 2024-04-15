@@ -1,7 +1,7 @@
 import { Result } from "@yext/search-headless-react";
 import { LngLatLike, Map, Popup } from "mapbox-gl";
 import * as React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as ReactDOM from "react-dom/server";
 import { FaCircle } from "react-icons/fa6";
 import { Coordinate } from "@yext/pages-components";
@@ -17,6 +17,8 @@ const transformToMapboxCoord = (
 };
 
 const getLocationHTML = (location: Location) => {
+  console.log(JSON.stringify(location));
+
   const address = location.address;
   const html = (
     <div>
@@ -25,6 +27,8 @@ const getLocationHTML = (location: Location) => {
       <p>{`${address.city}, ${address.region}, ${address.postalCode}`}</p>
     </div>
   );
+  console.log(html);
+
   return ReactDOM.renderToString(html);
 };
 
@@ -39,9 +43,7 @@ const MapPin: React.FC<MapPinProps> = ({
   mapbox,
   result,
   setSelectedLocationId,
-  selectedLocationId,
 }: MapPinProps) => {
-  const divRef = useRef();
   const location = result.rawData;
   const [active, setActive] = useState(false);
   const popupRef = useRef(
@@ -53,19 +55,21 @@ const MapPin: React.FC<MapPinProps> = ({
       const mapboxCoordinate = transformToMapboxCoord(
         location.yextDisplayCoordinate
       );
+      console.log("entered", mapboxCoordinate);
+
       if (mapboxCoordinate) {
         popupRef.current
           .setLngLat(mapboxCoordinate)
           .setHTML(getLocationHTML(location))
           .addTo(mapbox);
       }
+      setSelectedLocationId(location.id);
     }
   }, [active, mapbox, location]);
 
-  const handleClick = useCallback(() => {
-    setSelectedLocationId(location.id);
+  const handleClick = () => {
     setActive(true);
-  }, []);
+  };
 
   return (
     <button onClick={handleClick}>

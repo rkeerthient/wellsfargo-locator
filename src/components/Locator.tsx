@@ -104,7 +104,11 @@ const Locator = ({ verticalKey }: verticalKey) => {
   return (
     <>
       <div className="centered-container">
-        <SearchBar placeholder="Search here" onSearch={handleSearch} />
+        <SearchBar
+          customCssClasses={{ searchBarContainer: "custSearch" }}
+          placeholder="Search here"
+          onSearch={handleSearch}
+        />
       </div>
       {isLoading ? (
         <Loader />
