@@ -34,7 +34,7 @@ const Professional = ({ result }: any) => {
                 } = item;
                 return (
                   <div
-                    className="hover:border-l-2 hover:border-t-neutral-light hover:border-[#d71e2b] flex px-4 justify-between w-full py-4 border-t border-neutral-light "
+                    className="hover:border-l-2 border-l-2  border-l-transparent hover:border-t-neutral-light hover:border-[#d71e2b] flex px-4 justify-between w-full py-4 border-t border-neutral-light "
                     key={index}
                   >
                     <div className={`flex w-3/4 gap-2  items-center `}>

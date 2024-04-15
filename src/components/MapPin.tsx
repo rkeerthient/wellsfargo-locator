@@ -4,7 +4,6 @@ import * as React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as ReactDOM from "react-dom/server";
 import { FaCircle } from "react-icons/fa6";
-import { useLocationsContext } from "../common/LocationsContext";
 import { Coordinate } from "@yext/pages-components";
 import Location from "../types/locations";
 const transformToMapboxCoord = (
