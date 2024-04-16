@@ -17,8 +17,6 @@ const transformToMapboxCoord = (
 };
 
 const getLocationHTML = (location: Location) => {
-  console.log(JSON.stringify(location));
-
   const address = location.address;
   const html = (
     <div>

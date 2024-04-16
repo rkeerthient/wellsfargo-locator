@@ -96,5 +96,5 @@
 }
 
 .custSearch > div {
-  @apply border-0 border-b w-1/4 rounded-none;
+  @apply border-0 border-b rounded-none;
 }
