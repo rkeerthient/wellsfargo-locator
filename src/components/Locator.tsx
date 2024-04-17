@@ -34,11 +34,21 @@ const Locator = ({ verticalKey }: verticalKey) => {
   const filters = useSearchState((state) => state.filters.static);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLocationId, setSelectedLocationId] = useState("");
-  const { setSelectedLocationId: _setSelectedLocationId } =
-    useLocationsContext();
+  const {
+    selectedLocationId: _selectedLocationId,
+    setSelectedLocationId: _setSelectedLocationId,
+  } = useLocationsContext();
   useEffect(() => {
-    selectedLocationId && _setSelectedLocationId(selectedLocationId);
+    if (selectedLocationId) {
+      console.log(selectedLocationId);
+      _setSelectedLocationId(selectedLocationId);
+    }
   }, [selectedLocationId]);
+
+  useEffect(() => {
+    console.log(_selectedLocationId);
+  }, [_selectedLocationId]);
+
   useEffect(() => {
     searchActions.setVertical(verticalKey);
     const queryParams = new URLSearchParams(window.location.search);
@@ -90,7 +100,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
         <div className="flex gap-8 w-full items-center my-6">
           <SearchBar
             customCssClasses={{ searchBarContainer: "custSearch w-1/3 ml-8" }}
-            placeholder="Search here"
+            placeholder="Enter an address, zip code, or city and state"
             onSearch={handleSearch}
           />
           <div className="w-1/2">
@@ -155,6 +165,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
                   {...props}
                   selectedLocationId={selectedLocationId}
                   setSelectedLocationId={setSelectedLocationId}
+                  selectedLocationFromContext={_selectedLocationId}
                 />
               )}
             />

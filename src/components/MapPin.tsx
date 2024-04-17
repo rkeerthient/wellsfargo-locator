@@ -34,44 +34,53 @@ export interface MapPinProps {
   mapbox: Map;
   result: Result<Location>;
   selectedLocationId: string;
+  selectedLocationFromContext: string;
   setSelectedLocationId: (value: string) => void;
 }
 
 const MapPin: React.FC<MapPinProps> = ({
   mapbox,
   result,
+  selectedLocationId,
+  selectedLocationFromContext,
   setSelectedLocationId,
 }: MapPinProps) => {
   const location = result.rawData;
-  const [active, setActive] = useState(false);
-  const popupRef = useRef(
-    new Popup({ offset: 15 }).on("close", () => setActive(false))
-  );
+  const [isActive, setIsActive] = useState<boolean>();
+  const popupRef = useRef(new Popup({ offset: 15 }));
+  useEffect(() => {
+    if (selectedLocationFromContext) {
+      document
+        .querySelectorAll(".mapboxgl-popup")
+        .forEach((item) => item.remove());
+
+      setIsActive(selectedLocationFromContext === location.id);
+    }
+  }, [selectedLocationFromContext, location.id]);
 
   useEffect(() => {
-    if (active && location.yextDisplayCoordinate) {
+    if (isActive && location.yextDisplayCoordinate) {
       const mapboxCoordinate = transformToMapboxCoord(
         location.yextDisplayCoordinate
       );
-      console.log("entered", mapboxCoordinate);
-
       if (mapboxCoordinate) {
         popupRef.current
           .setLngLat(mapboxCoordinate)
           .setHTML(getLocationHTML(location))
           .addTo(mapbox);
       }
-      setSelectedLocationId(location.id);
+    } else {
+      popupRef.current.remove();
     }
-  }, [active, mapbox, location]);
-
+  }, [isActive, mapbox, location]);
   const handleClick = () => {
-    setActive(true);
+    setSelectedLocationId(isActive ? null : location.id);
   };
-
   return (
     <button onClick={handleClick}>
-      <FaCircle className="text-[#d71e2b] h-4 w-4" />
+      <FaCircle
+        className={`text-[#d71e2b] ${isActive ? "h-8 w-8" : "h-4 w-4"}`}
+      />
     </button>
   );
 };

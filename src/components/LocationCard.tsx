@@ -9,7 +9,7 @@ import { useEffect } from "react";
 const LocationCard = ({ result }: CardProps<Location>) => {
   const { name, id } = result;
   const { address, mainPhone, c_locationProfessional } = result.rawData;
-  const { selectedLocationId } = useLocationsContext();
+  const { selectedLocationId, setSelectedLocationId } = useLocationsContext();
   const getDirectionsUrl = (addr?: any) => {
     const region = addr.region ? ` ${addr.region}` : ``;
     const rawQuery = `${addr.line1},${addr.city},${region} ${addr.postalCode} ${addr.countryCode}`;
@@ -21,7 +21,6 @@ const LocationCard = ({ result }: CardProps<Location>) => {
   useEffect(() => {
     const element = document.getElementById(selectedLocationId);
     if (element) {
-      // 👇 Will scroll smoothly to the top of the next section
       element.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
@@ -33,6 +32,7 @@ const LocationCard = ({ result }: CardProps<Location>) => {
   return (
     <div
       id={id}
+      onClick={() => setSelectedLocationId(id)}
       className="w-full border  rounded-sm bg-[#f9f7f6]  flex flex-col "
     >
       <div className="  px-4 py-4 flex gap-2 items-center justify-between">
