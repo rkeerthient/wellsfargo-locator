@@ -7,7 +7,7 @@ import { LuMapPin } from "react-icons/lu";
 import Professional from "./Professional";
 import { useEffect } from "react";
 const LocationCard = ({ result }: CardProps<Location>) => {
-  const { name, id } = result;
+  const { name, id,distance } = result;
   const { address, mainPhone, c_locationProfessional } = result.rawData;
   const { selectedLocationId, setSelectedLocationId } = useLocationsContext();
   const getDirectionsUrl = (addr?: any) => {
@@ -39,7 +39,7 @@ const LocationCard = ({ result }: CardProps<Location>) => {
         <div className="flex flex-col text-sm w-full gap-2 justify-between text-black">
           <div className="flex w-full justify-between">
             <div className="font-bold text-base text-[#141414]">{name}</div>
-            <div className="">12mi</div>
+            <div className=" ">{(distance / 1609.344).toFixed(2)}mi</div>
           </div>
           <div className="flex gap-2 items-center text-sm">
             <div>
