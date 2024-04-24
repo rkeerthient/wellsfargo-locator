@@ -86,11 +86,11 @@ const LocationCard = ({ result }: CardProps<Location>) => {
               <div className="flex gap-2  mt-4">
                 <a
                   href={getDirectionsUrl(address)}
-                  className="border px-4 py-2 bg-[#345d9f] hover:cursor-pointer text-white"
+                  className="border px-4 py-2 bg-[#d61f28] hover:cursor-pointer text-white"
                 >
                   Get Directions
                 </a>
-                <div className="border px-4 py-2 bg-[#345d9f] hover:cursor-pointer text-white">
+                <div className="border px-4 py-2 bg-[#d61f28] hover:cursor-pointer text-white">
                   Book an Appointment
                 </div>
               </div>
