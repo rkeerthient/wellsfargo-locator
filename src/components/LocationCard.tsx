@@ -1,14 +1,23 @@
 import { CardProps } from "@yext/search-ui-react";
-import { BsPin } from "react-icons/bs";
+import { useEffect } from "react";
 import { CiPhone } from "react-icons/ci";
+import { LuMapPin } from "react-icons/lu";
 import { useLocationsContext } from "../common/LocationsContext";
 import Location from "../types/locations";
-import { LuMapPin } from "react-icons/lu";
 import Professional from "./Professional";
-import { useEffect } from "react";
+import { HoursStatus, getDirections } from "@yext/pages-components";
+
 const LocationCard = ({ result }: CardProps<Location>) => {
-  const { name, id,distance } = result;
-  const { address, mainPhone, c_locationProfessional } = result.rawData;
+  const { name, id, distance } = result;
+  const {
+    address,
+    mainPhone,
+    c_locationProfessional,
+    hours,
+    c_typeOfLocation,
+  } = result.rawData;
+  console.log(c_typeOfLocation && JSON.stringify(c_typeOfLocation[0]));
+
   const { selectedLocationId, setSelectedLocationId } = useLocationsContext();
   const getDirectionsUrl = (addr?: any) => {
     const region = addr.region ? ` ${addr.region}` : ``;
@@ -65,6 +74,27 @@ const LocationCard = ({ result }: CardProps<Location>) => {
                 : `(610) 363-8020`}
             </div>
           </div>
+          {hours && (
+            <div className="font-semibold">
+              <HoursStatus timez hours={hours} dayOfWeekTemplate={() => null} />
+            </div>
+          )}
+
+          {c_typeOfLocation &&
+            (c_typeOfLocation[0].includes("Bank") ||
+              c_typeOfLocation[0] === "ATM") && (
+              <div className="flex gap-2  mt-4">
+                <a
+                  href={getDirectionsUrl(address)}
+                  className="border px-4 py-2 bg-[#345d9f] hover:cursor-pointer text-white"
+                >
+                  Get Directions
+                </a>
+                <div className="border px-4 py-2 bg-[#345d9f] hover:cursor-pointer text-white">
+                  Book an Appointment
+                </div>
+              </div>
+            )}
         </div>
       </div>
       {c_locationProfessional && (
