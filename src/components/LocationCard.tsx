@@ -41,7 +41,7 @@ const LocationCard = ({ result }: CardProps<Location>) => {
     <div
       id={id}
       onClick={() => setSelectedLocationId(id)}
-      className="w-full border  rounded-sm bg-[#f9f7f6]  flex flex-col "
+      className={`w-full border  rounded-sm bg-[#f9f7f6]  flex flex-col ${selectedLocationId === id && `ring-2 ring-zinc-700`}`}
     >
       <div className="  px-4 py-4 flex gap-2 items-center justify-between">
         <div className="flex flex-col text-sm w-full gap-2 justify-between text-black">

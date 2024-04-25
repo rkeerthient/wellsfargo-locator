@@ -116,13 +116,13 @@ const Locator = ({ verticalKey }: verticalKey) => {
         </div>
       </div>
       <>
-        <div className="flex flex-row">
+        <div className="flex flex-row h-[85vh]">
           <div
             className="flex flex-col w-[40%] p-4 overflow-scroll relative"
             style={{ height: "95vh" }}
           >
             <>
-              <div>
+              <div className="h-[85vh]">
                 <ResultsCount />
                 <AppliedFilters />
                 {isLoading ? (
@@ -149,7 +149,7 @@ const Locator = ({ verticalKey }: verticalKey) => {
               </div>
             </>
           </div>
-          <div className=" w-[60%] h-screen">
+          <div className=" w-[60%] h-[85vh]">
             <MapboxMap
               onDrag={onDrag}
               mapboxOptions={{
