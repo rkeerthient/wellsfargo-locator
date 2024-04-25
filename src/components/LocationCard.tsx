@@ -16,7 +16,6 @@ const LocationCard = ({ result }: CardProps<Location>) => {
     hours,
     c_typeOfLocation,
   } = result.rawData;
-  console.log(distance);
 
   const { selectedLocationId, setSelectedLocationId } = useLocationsContext();
   const getDirectionsUrl = (addr?: any) => {
