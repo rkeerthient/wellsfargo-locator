@@ -46,10 +46,6 @@ const Locator = ({ verticalKey }: verticalKey) => {
   }, [selectedLocationId]);
 
   useEffect(() => {
-    console.log(_selectedLocationId);
-  }, [_selectedLocationId]);
-
-  useEffect(() => {
     searchActions.setVertical(verticalKey);
     const queryParams = new URLSearchParams(window.location.search);
     let q = queryParams.get("query");

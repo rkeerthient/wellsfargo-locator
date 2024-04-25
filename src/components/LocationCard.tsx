@@ -16,7 +16,7 @@ const LocationCard = ({ result }: CardProps<Location>) => {
     hours,
     c_typeOfLocation,
   } = result.rawData;
-  console.log(c_typeOfLocation && JSON.stringify(c_typeOfLocation[0]));
+  console.log(distance);
 
   const { selectedLocationId, setSelectedLocationId } = useLocationsContext();
   const getDirectionsUrl = (addr?: any) => {
@@ -48,7 +48,7 @@ const LocationCard = ({ result }: CardProps<Location>) => {
         <div className="flex flex-col text-sm w-full gap-2 justify-between text-black">
           <div className="flex w-full justify-between">
             <div className="font-bold text-base text-[#141414]">{name}</div>
-            <div className=" ">{(distance / 1609.344).toFixed(2)}mi</div>
+            <div className=" ">{convertAndRoundMetersToMiles(distance)}mi</div>
           </div>
           <div className="flex gap-2 items-center text-sm">
             <div>
@@ -103,5 +103,9 @@ const LocationCard = ({ result }: CardProps<Location>) => {
     </div>
   );
 };
-
+const convertAndRoundMetersToMiles = (meters: any) => {
+  const metersToMilesFactor = 1609.344;
+  let miles = meters / metersToMilesFactor;
+  return Math.round(miles / 0.5) * 0.5;
+};
 export default LocationCard;
